@@ -85,6 +85,38 @@ public class Controller
 		return null;
 	}
 	
+	public ArrayList<Student> searchStudentID(String ID)
+	{
+		ArrayList<Student> student = new ArrayList<Student>();
+		
+		try
+		{
+			Class.forName("com.nilostep.xlsql.jdbc.xlDriver");
+			Connection conn = DriverManager.getConnection("jdbc:nilostep:excel:" + System.getProperty("user.dir") + "\\Test"); // Directory that contains databases.
+			Statement stmt = conn.createStatement();
+			String sql = "SELECT * FROM \"student.student\" WHERE tenDigitID = '" + ID + "'"; // [xlsfilename].[sheetname]
+			ResultSet rs = stmt.executeQuery(sql);
+				
+			while (rs.next())
+			{
+				student.add(new Student(rs.getString("asuriteID"), rs.getInt("tenDigitID")));
+			}
+				
+			rs.close();
+			stmt.close();
+			conn.close();
+			return student;
+		}
+			
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+			
+		return null;
+	}
+	
 	public void insertStudent(String userName, String id)
 	{
 		w.insertStudent(userName, id);
@@ -228,6 +260,35 @@ public class Controller
 		return;
 	}
 	
+	public void getClubs(String name)
+	{
+		
+		try
+		{
+			Class.forName("com.nilostep.xlsql.jdbc.xlDriver");
+			Connection conn = DriverManager.getConnection("jdbc:nilostep:excel:" + System.getProperty("user.dir") + "\\Test"); // Directory that contains databases.
+			Statement stmt = conn.createStatement();
+			String sql = "SELECT * FROM \"club.club\" WHERE clubName = '" + name + "'"; // [xlsfilename].[sheetname]
+			ResultSet rs = stmt.executeQuery(sql);
+				
+			while (rs.next())
+			{
+				System.out.println(rs.getString("clubName"));
+				System.out.println();
+			}
+				
+			rs.close();
+			stmt.close();
+			conn.close();
+		}
+			
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+	}
+	
 	public void insertClub(String clubName)
 	{
 		w.insertClub(clubName);
@@ -253,6 +314,40 @@ public class Controller
 			else { conn = DriverManager.getConnection("jdbc:nilostep:excel:" + System.getProperty("user.dir") + "/Test"); }
 			Statement stmt = conn.createStatement();
 			String sql = "SELECT * FROM \"module.module\""; // [xlsfilename].[sheetname]
+			ResultSet rs = stmt.executeQuery(sql);
+				
+			while (rs.next())
+			{
+				System.out.println(rs.getString("moduleName"));
+				System.out.println(rs.getInt("timeValidInMonths"));
+				System.out.println();
+			}
+				
+			rs.close();
+			stmt.close();
+			conn.close();
+		}
+			
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+			
+		return;
+	}
+	
+	public void getModules(string name)
+	{
+		
+		try
+		{
+			Class.forName("com.nilostep.xlsql.jdbc.xlDriver");
+			Connection conn;
+			if (OS.indexOf("win") >= 0) { conn = DriverManager.getConnection("jdbc:nilostep:excel:" + System.getProperty("user.dir") + "\\Test"); } // Directory that contains databases.
+			else { conn = DriverManager.getConnection("jdbc:nilostep:excel:" + System.getProperty("user.dir") + "/Test"); }
+			Statement stmt = conn.createStatement();
+			String sql = "SELECT * FROM \"module.module\" WHERE moduleName = '" + name + '""; // [xlsfilename].[sheetname]
 			ResultSet rs = stmt.executeQuery(sql);
 				
 			while (rs.next())
